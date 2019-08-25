@@ -34,7 +34,7 @@ public class ContatoDAO {
 	    stmt.execute();
 	    stmt.close();
 	} catch (SQLException e) {
-	    throw new RuntimeException(e);
+	    throw new DAOException(e);
 	}
     }
 
@@ -64,7 +64,39 @@ public class ContatoDAO {
 	    return contatos;
 
 	} catch (SQLException e) {
-	    throw new RuntimeException(e);
+	    throw new DAOException(e);
 	}
     }
+
+    public Contato pesquisar(Integer id) {
+	try {
+
+	    PreparedStatement stmt = this.connection.prepareStatement("select * from contatos where id = ?");
+	    stmt.setLong(1, id);
+	    ResultSet rs = stmt.executeQuery();
+
+	    Contato contato = new Contato();
+
+	    while (rs.next()) {
+		contato.setId(rs.getLong("id"));
+		contato.setNome(rs.getString("nome"));
+		contato.setEmail(rs.getString("email"));
+		contato.setEndereco(rs.getString("endereco"));
+
+		Calendar data = Calendar.getInstance();
+		data.setTime(rs.getDate("dataNascimento"));
+
+		contato.setDataNascimento(data);
+	    }
+
+	    rs.close();
+	    stmt.close();
+	    return contato;
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	}
+    }
+    
+    
 }
