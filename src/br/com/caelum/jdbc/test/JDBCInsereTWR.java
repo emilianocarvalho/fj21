@@ -10,7 +10,7 @@ import br.com.caelum.jdbc.ConnectionFactory;
 public class JDBCInsereTWR {
 
     public static void main(String[] args) throws SQLException {
-	
+
 	// try-with-resources
 	try (Connection con = new ConnectionFactory().getConnection()) {
 
@@ -29,7 +29,7 @@ public class JDBCInsereTWR {
 	    con.close();
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} 
+	}
     }
 
 }
