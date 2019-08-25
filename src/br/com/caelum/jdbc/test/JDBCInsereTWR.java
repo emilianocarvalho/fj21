@@ -10,8 +10,9 @@ import br.com.caelum.jdbc.ConnectionFactory;
 public class JDBCInsereTWR {
 
     public static void main(String[] args) throws SQLException {
-	Connection con = new ConnectionFactory().getConnection();
-	try {
+	
+	// try-with-resources
+	try (Connection con = new ConnectionFactory().getConnection()) {
 
 	    String sql = "insert into contatos" + "(nome, email, endereco, dataNascimento) " + "values (?,?,?,?)";
 	    PreparedStatement stmt = con.prepareStatement(sql);
@@ -25,12 +26,10 @@ public class JDBCInsereTWR {
 	    stmt.close();
 
 	    System.out.println("Gravado!");
+	    con.close();
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    con.close();
-	}
-
+	} 
     }
 
 }
