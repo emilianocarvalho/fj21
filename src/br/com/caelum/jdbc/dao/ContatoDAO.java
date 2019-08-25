@@ -20,7 +20,7 @@ public class ContatoDAO {
 	this.connection = new ConnectionFactory().getConnection();
     }
 
-    public void adiciona(Contato contato) {
+    public Contato adiciona(Contato contato) {
 	String sql = "insert into contatos" + "(nome, email, endereco, dataNascimento) " + "values (?,?,?,?)";
 
 	try {
@@ -33,6 +33,7 @@ public class ContatoDAO {
 
 	    stmt.execute();
 	    stmt.close();
+	    return contato;
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	}
@@ -99,7 +100,7 @@ public class ContatoDAO {
     }
 
     public void altera(Contato contato) {
-	String sql = "update contatos set nome=?, email=?," + "endereco=?, dataNascimento=? where id=?";
+	String sql = "update contatos set nome=?, email=?, " + "endereco=?, dataNascimento=? where id=?";
 
 	try {
 	    PreparedStatement stmt = connection.prepareStatement(sql);
